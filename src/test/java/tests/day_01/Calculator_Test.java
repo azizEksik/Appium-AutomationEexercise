@@ -1,6 +1,9 @@
-import io.appium.java_client.AppiumBy;
+package tests.day_01;
+
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -11,12 +14,14 @@ import org.testng.annotations.Test;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 public class Calculator_Test {
 
 
-    AndroidDriver driver; // Android cihazlar için kullanılması gereken driver
-    AppiumDriver appiumDriver; // hem android hem de ios cihazlar için kullanılabilen driver
+    AndroidDriver<AndroidElement> driver; // android cihazlar icin kullanılması gerek driver
+    // AppiumDriver<AndroidElement> driver2; // hem android hem de io cihazlar için kullanılan driver(Android cihaz için kullanılır bu driver)
+    // AppiumDriver<MobileElement> driver3; // ios cihazlar için kullanılır(android cihazlar icin de kullanılabilir)
 
     @Test
     public void test01() throws MalformedURLException {
@@ -31,9 +36,9 @@ public class Calculator_Test {
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME,"UiAutomator2"); // egerki kullandıgımız android sürümü 6 veya üstüyse "UiAutomator2" kullanılır
         //capabilities.setCapability(MobileCapabilityType.APP,"C:\\Users\\90545\\IdeaProjects\\com.Appium\\Apps\\Calculator_8.4.1 (520193683)_Apkpure.apk"); // cihazda calistirmak istedigimiz app'in path'ini belirttigimiz method, ciahaza bu uygulamı yükleriz, eger yüklüyse calistiririz
 
-        driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"),capabilities); // capabilities'leri cihazımıza göndere bilmek için apiium server host numarasını(EndPoint) belirttigimiz method
+        driver = new AndroidDriver<AndroidElement>(new URL("http://127.0.0.1:4723/wd/hub"),capabilities); // capabilities'leri cihazımıza göndere bilmek için apiium server host numarasını(EndPoint) belirttigimiz method
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20)); // 20 saniye boyunca verdigimiz görevin calismasi icin bekleyen method
+        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS); // 20 saniye boyunca verdigimiz görevin calismasi icin bekleyen method
 
         driver.activateApp("com.google.android.calculator");// uygulamayı dosya pathi capability olarak göndermek yerine bu şekilde de başlatabiliriz
                                                                     // uygulamayı bu şekilde başlatırsak bize uygulamanın bundleId'si lazım. bunu da yükledigimiz apk info app'i ile alıyoruz
@@ -42,7 +47,7 @@ public class Calculator_Test {
         Assert.assertTrue(driver.isAppInstalled("com.google.android.calculator")); // ugulamanın yüklü olup olmadığını söyleyen method
 
         // uygulamanın acildigini dogrular
-        WebElement acButton = driver.findElement(By.xpath("//android.widget.ImageButton[@content-desc=\"clear\"]"));
+        AndroidElement acButton = driver.findElementByAccessibilityId("clear");
 
         Assert.assertTrue(acButton.isDisplayed());
 

@@ -1,3 +1,5 @@
+package tests.day_02;
+
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -7,6 +9,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class AppInstalled {
 
@@ -25,7 +28,7 @@ public class AppInstalled {
 
         driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"),capabilities); // capabilities'leri cihazımıza göndere bilmek için apiium server host numarasını(EndPoint) belirttigimiz method
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20)); // 20 saniye boyunca verdigimiz görevin calismasi icin bekleyen method
+        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS); // 20 saniye boyunca verdigimiz görevin calismasi icin bekleyen method
 
 
     }
